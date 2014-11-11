@@ -1,9 +1,9 @@
-package java02.test15.command;
+package java02.test17.server.command;
 
 import java.util.Map;
-import java02.test15.ProductDao;
-import java02.test15.annotation.Command;
-import java02.test15.annotation.Component;
+import java02.test17.server.ProductDao;
+import java02.test17.server.annotation.Command;
+import java02.test17.server.annotation.Component;
 
 @Component
 public class GeneralCommand {

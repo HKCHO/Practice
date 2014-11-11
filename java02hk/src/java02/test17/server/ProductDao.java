@@ -1,7 +1,11 @@
-package java02.test15;
+/* 페이징 처리
+ * => DBMS마다 처리하는 방법이 다르다.    
+ */
+package java02.test17.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -48,7 +52,7 @@ public class ProductDao {
   
   public void update(Product product) {
     Connection con = null;
-    Statement stmt = null;
+    PreparedStatement stmt = null;
     
     try {
       Class.forName("com.mysql.jdbc.Driver");
@@ -57,11 +61,13 @@ public class ProductDao {
             "?useUnicode=true&characterEncoding=utf8", 
           "study",
           "study");
-      stmt = con.createStatement();
-      stmt.executeUpdate("UPDATE PRODUCTS SET"
-        + " PNAME='" + product.getName()
-        + "', QTY=" + product.getQuantity()
-        + " WHERE PNO=" + product.getNo());
+      stmt = con.prepareStatement(
+          "UPDATE PRODUCTS SET PNAME=?,QTY=? WHERE PNO=?");
+      stmt.setString(1, product.getName());
+      stmt.setInt(2, product.getQuantity());
+      stmt.setInt(3, product.getNo());
+
+      stmt.executeUpdate();
       
     } catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -96,7 +102,7 @@ public class ProductDao {
     }
   }
   
-  public List<Product> selectList() {
+  public List<Product> selectList(int pageNo, int pageSize) {
     Connection con = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -108,8 +114,15 @@ public class ProductDao {
           "study", 
           "study");
       stmt = con.createStatement();
-      rs = stmt.executeQuery(
-          "SELECT PNO,PNAME,QTY,MKNO FROM PRODUCTS");
+      
+      String sql = "SELECT PNO,PNAME,QTY,MKNO FROM PRODUCTS"; 
+      
+      if (pageSize > 0) {
+        sql += " limit " + ((pageNo - 1) * pageSize) 
+            + "," + pageSize;
+      }
+      
+      rs = stmt.executeQuery(sql);
       
       ArrayList<Product> list = new ArrayList<Product>();
       Product product = null;
@@ -137,7 +150,7 @@ public class ProductDao {
   
   public void insert(Product product) {
     Connection con = null;
-    Statement stmt = null;
+    PreparedStatement stmt = null;
     
     try {
       Class.forName("com.mysql.jdbc.Driver");
@@ -146,11 +159,19 @@ public class ProductDao {
             "?useUnicode=true&characterEncoding=utf8", 
           "study",
           "study");
-      stmt = con.createStatement();
-      stmt.executeUpdate("INSERT INTO PRODUCTS(PNAME,QTY,MKNO)" +
-        " VALUES('" + product.getName()
-        + "'," + product.getQuantity()
-        + "," + product.getMakerNo() + ")");
+      stmt = con.prepareStatement(
+          "INSERT INTO PRODUCTS(PNAME,QTY,MKNO) VALUES(?,?,?)");
+      
+      //용어정리: ?를 in-parameter라고 부른다.
+      //인파라미터의 인덱스는 1부터 시작한다.
+      //순서대로 설정할 필요는 없지만, 
+      //프로그래밍의 일관성을 위해 순서대로 입력하라!
+      stmt.setString(1, product.getName());
+      stmt.setInt(2, product.getQuantity());
+      stmt.setInt(3, product.getMakerNo());
+      
+      stmt.executeUpdate();
+      
     } catch (Exception ex) {
       throw new RuntimeException(ex);
       

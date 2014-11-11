@@ -14,7 +14,7 @@
  * 
  * 6) toString() 오버라이딩
  */
-package java02.test15;
+package java02.test17.server;
 
 import java.io.Serializable;
 

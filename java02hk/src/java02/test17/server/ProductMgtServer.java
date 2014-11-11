@@ -1,18 +1,18 @@
-package java02.test15;
+package java02.test17.server;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
-import java02.test15.annotation.Command;
-import java02.test15.annotation.Component;
+import java02.test17.server.annotation.Command;
+import java02.test17.server.annotation.Component;
 
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ProductMgt {
+public class ProductMgtServer {
   static class CommandInfo {
     public Object instance;
     public Method method;
@@ -112,7 +112,7 @@ public class ProductMgt {
   }
 
   public static void main(String[] args) throws Exception {
-    ProductMgt app = new ProductMgt();
+    ProductMgtServer app = new ProductMgtServer();
     app.init();
     app.service();
     app.destroy();
