@@ -29,7 +29,7 @@ public class Jdbc08 {
 
 			stmt.executeUpdate("UPDATE PRODUCTS SET"
 					+ " PNAME = '넥서스10' , QTY = 999"
-					+ " WHERE PNO=10");
+					+ " WHERE PNO=8");
 			System.out.println("데이터 변경 완료.");
 
 		} catch (Exception e) {

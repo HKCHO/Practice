@@ -1,4 +1,4 @@
-package java02.test17.server.command;
+package java02.test17forTest.server.command;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import java02.test17.server.Product;
-import java02.test17.server.ProductDao;
-import java02.test17.server.annotation.Command;
-import java02.test17.server.annotation.Component;
+import java02.test17forTest.server.Product;
+import java02.test17forTest.server.ProductDao;
+import java02.test17forTest.server.annotation.Command;
+import java02.test17forTest.server.annotation.Component;
 
 @Component
 public class ProductCommand {
@@ -93,6 +93,7 @@ public class ProductCommand {
 		@SuppressWarnings("unchecked")
 		ArrayList<String> options = 
 		(ArrayList<String>)params.get("options");
+		
 
 		int pageNo = 0;
 		int pageSize = 0;
