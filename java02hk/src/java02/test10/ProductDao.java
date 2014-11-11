@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class ScoreDao {
+public class ProductDao {
   ArrayList<Score> list = new ArrayList<Score>();
   String filename;
   
-  public ScoreDao() {
+  public ProductDao() {
     filename = "score.dat";
   }
   
-  public ScoreDao(String filename) {
+  public ProductDao(String filename) {
     this.filename = filename;
   }
 

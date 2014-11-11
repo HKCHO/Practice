@@ -2,15 +2,15 @@ package java02.test10.command;
 
 import java.util.Map;
 
-import java02.test10.ScoreDao;
+import java02.test10.ProductDao;
 import java02.test10.annotation.Command;
 import java02.test10.annotation.Component;
 
 @Component
 public class GeneralCommand {
-  ScoreDao scoreDao;
+  ProductDao scoreDao;
   
-  public void setScoreDao(ScoreDao scoreDao) {
+  public void setScoreDao(ProductDao scoreDao) {
     this.scoreDao = scoreDao;
   }
 
