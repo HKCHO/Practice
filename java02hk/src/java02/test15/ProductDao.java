@@ -102,7 +102,7 @@ public class ProductDao {
 	}
 
 
-	public List<Product> selectList() {
+	public List<Product> selectList(int pageNo, int pageSize) {
 		Connection con = null; 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -116,8 +116,14 @@ public class ProductDao {
 					"study"); 
 			System.out.println("DBMS에 연결됨");
 			stmt = con.createStatement();
-			rs = stmt.executeQuery(
-					"SELECT PNO,PNAME,QTY,MKNO FROM PRODUCTS ");
+			
+			String sql = "SELECT PNO,PNAME,QTY,MKNO FROM PRODUCTS ";
+			
+			if (pageSize > 0) {
+				sql += " limit " + ((pageNo - 1) * pageSize) + "," + pageSize;
+			}
+			
+			rs = stmt.executeQuery(sql);
 
 			ArrayList<Product> list = new ArrayList<Product>();
 			Product product = null;
