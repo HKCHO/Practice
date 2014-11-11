@@ -1,7 +1,16 @@
+/*PreparedStatement 사용하기
+ * => SQL문을 미리 준비하여 입력 값을 파라미터로 전달한다.
+ * => 이점
+ *    1) 서버에 SQL문을 보내기 전에 한번만 컴파일한다.
+ *      => 만약 같은 SQL문을 한번에 여러번 실행하는 경우에는 속도가 빠르다.
+ *    2) 입력 값을 파라미터로 전달하기 때문에 => 바이너리 데이터 입력이 가능하다.
+ */
+
 package java02.test15;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -135,8 +144,7 @@ public class ProductDao {
 
 	public void insert(Product product) {
 		Connection con = null; 
-		Statement stmt = null;
-
+		PreparedStatement stmt = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection( 
@@ -145,12 +153,20 @@ public class ProductDao {
 							"study",	
 					"study"); 
 
-			stmt = con.createStatement();
-			stmt.executeUpdate("INSERT INTO PRODUCTS(PNAME,QTY,MKNO)"
-					+ " VALUES('" + product.getName()
-					+ "'," + product.getQuantity()
-					+ " ," + product.getMakerNo()	+ " )");
-
+			stmt = con.prepareStatement(
+					"INSER INTO PRODUCTS(PNAME,QTY,MKNO) VALUES(?,?,?)");
+			
+			//용어정리 : ?를 in-parameter라고 부른다.
+			//인파라미터의 인덱스는 1부터 시작한다.
+			//순서대로 설정할 필요는 없지만,
+			//프로그래밍의 일관성을 위해 순서대로 입력하자.
+			
+			stmt.setString(1, product.getName());
+			stmt.setInt(2, product.getQuantity());
+			stmt.setInt(3, product.getMakerNo());
+			
+			stmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -163,7 +179,7 @@ public class ProductDao {
 
 	public void update(Product product){
 		Connection con = null; 
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection( 
@@ -171,12 +187,12 @@ public class ProductDao {
 							"?useUnicode=true&characterEncoding=utf8", 
 							"study",	
 					"study"); 
-			stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE PRODUCTS SET"
-					+ " PNAME = '"    + product.getName()
-					+ "' , QTY ="     + product.getQuantity()
-					+ " WHERE PNO = " + product.getNo()
-					+ "");
+			stmt = con.prepareStatement(
+					"UPDATE PRODUCT SET PNAME=?,QTY=? WHERE PNO=?");
+			
+			stmt.setString(1, product.getName());
+			stmt.setInt(2, product.getQuantity());
+			stmt.setInt(3, product.getNo());
 
 		} catch (Exception e) {
 			e.printStackTrace();
