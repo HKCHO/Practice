@@ -62,10 +62,11 @@ public class ProductDao {
           "study",
           "study");
       stmt = con.prepareStatement(
-          "UPDATE PRODUCTS SET PNAME=?,QTY=? WHERE PNO=?");
+          "UPDATE PRODUCTS SET PNAME=?,QTY=?,MKNO=? WHERE PNO=?");
       stmt.setString(1, product.getName());
       stmt.setInt(2, product.getQuantity());
-      stmt.setInt(3, product.getNo());
+      stmt.setInt(3, product.getMakerNo());
+      stmt.setInt(4, product.getNo());
 
       stmt.executeUpdate();
       
