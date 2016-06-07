@@ -18,10 +18,10 @@
 	$.fn.addTag = function(e, v) {
 		var $this = $(this);
 		// focus event
-		if(e.type = 'focus' && paramValidate.isEmpty($this.val())) $this.val("#");
+		if(e.type == 'focus' && paramValidate.isEmpty($this.val())) $this.val("#");
 		
 		// key up event
-		if(e.type = 'keyup'){
+		if(e.type == 'keyup'){
 			v = checkText($this,v);
 			if(_checkDelimiter(v)){
 				tags = convertToArr(v);
